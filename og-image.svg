@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="315" x2="1200" y2="315" stroke="#1c1c1a" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="630" stroke="#1c1c1a" stroke-width="1"/>
+
+  <!-- Accent corner mark -->
+  <rect x="80" y="80" width="8" height="8" rx="1" fill="#c8ff47"/>
+
+  <!-- Logo -->
+  <text x="80" y="300" font-family="Arial Black, sans-serif" font-weight="900" font-size="120" fill="#edeae3">1Cut</text>
+  <circle cx="404" cy="285" r="9" fill="#c8ff47"/>
+
+  <!-- Tagline -->
+  <text x="80" y="355" font-family="Arial, sans-serif" font-weight="300" font-size="24" fill="#888880" letter-spacing="2">ELITE VIDEO EDITING</text>
+
+  <!-- Bottom line -->
+  <line x1="80" y1="460" x2="400" y2="460" stroke="#1c1c1a" stroke-width="1"/>
+  <text x="80" y="490" font-family="Arial, sans-serif" font-size="16" fill="#3a3a38" letter-spacing="1">1CUTMEDIA.COM</text>
+
+  <!-- Right accent block -->
+  <rect x="980" y="240" width="140" height="140" rx="8" fill="#c8ff47" opacity="0.08"/>
+  <rect x="1020" y="280" width="60" height="60" rx="4" fill="#c8ff47" opacity="0.15"/>
+</svg>

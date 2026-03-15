@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>1Cut Media — Elite Video Editing</title>
   <meta name="description" content="Boutique post-production studio for YouTube creators and brands who treat content like a product. Long form, short form, and podcast editing.">
-  <meta property="og:title" content="1Cut Media — Elite Video Editing">
+  <meta property="og:title" content="1Cut Media 🎬">
   <meta property="og:description" content="Post-production for creators who know the edit is everything.">
   <meta property="og:url" content="https://1cutmedia.com">
+  <meta property="og:image" content="https://1cutmedia.com/og-image.svg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="1Cut Media 🎬">
+  <meta name="twitter:description" content="Post-production for creators who know the edit is everything.">
+  <meta name="twitter:image" content="https://1cutmedia.com/og-image.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -36,25 +43,15 @@
       background: var(--bg);
       color: var(--fg);
       overflow-x: hidden;
-      cursor: none;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cline x1='2' y1='4' x2='25' y2='22' stroke='%23c8ff47' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='2' y1='16' x2='25' y2='5' stroke='%23c8ff47' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='11.5' r='2.5' fill='%230a0a0a' stroke='%23c8ff47' stroke-width='1.5'/%3E%3Ccircle cx='25' cy='24' r='5.5' stroke='%23c8ff47' stroke-width='1.8'/%3E%3Ccircle cx='25' cy='4' r='4.5' stroke='%23c8ff47' stroke-width='1.8'/%3E%3C/svg%3E") 2 4, auto;
     }
 
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
+    a, button, select { cursor: inherit; }
 
     /* ── CUSTOM CURSOR ── */
-    #cursor {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s ease, width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
-      mix-blend-mode: difference;
-    }
+    #cursor { display: none; }
 
     #cursor-ring {
       position: fixed;
@@ -68,7 +65,6 @@
       transition: left 0.18s ease, top 0.18s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
     }
 
-    body.cursor-hover #cursor { width: 16px; height: 16px; }
     body.cursor-hover #cursor-ring {
       width: 52px; height: 52px;
       border-color: rgba(200,255,71,0.5);
@@ -489,7 +485,7 @@
       border-top: 1px solid var(--border);
       gap: 40px;
       transition: border-color 0.3s;
-      cursor: default;
+      cursor: inherit;
     }
 
     .service-item:last-child { border-bottom: 1px solid var(--border); }
@@ -555,9 +551,34 @@
     .work-note {
       font-size: 13px;
       color: var(--fg-dim);
-      max-width: 220px;
+      max-width: 260px;
       text-align: right;
       line-height: 1.6;
+    }
+
+    .work-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+
+    .work-tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--fg-faint);
+      border: 1px solid var(--fg-faint);
+      padding: 3px 8px;
+      border-radius: 1px;
+      white-space: nowrap;
+    }
+
+    .work-tag--accent {
+      color: var(--accent);
+      border-color: rgba(200,255,71,0.4);
     }
 
     .work-grid {
@@ -573,7 +594,7 @@
       overflow: hidden;
       position: relative;
       aspect-ratio: 16/9;
-      cursor: pointer;
+      cursor: inherit;
     }
 
     .work-card:nth-child(1) { grid-column: 1 / 8; }
@@ -665,6 +686,30 @@
     }
 
     .work-card:hover .work-card-coming { color: var(--fg-dim); }
+
+    /* ── LIVE THUMBNAIL CARDS ── */
+    .work-card--live .work-card-bg {
+      background-size: cover;
+      background-position: center;
+    }
+    .work-card--live .work-card-info {
+      opacity: 1;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 70%);
+    }
+    .work-card--live .work-card-title {
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .work-card-views {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
 
     /* ── CONTACT ── */
     #contact { }
@@ -775,7 +820,7 @@
     .form-field textarea::placeholder { color: var(--fg-faint); }
 
     .form-field select {
-      cursor: pointer;
+      cursor: inherit;
       appearance: none;
       -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23444' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -816,7 +861,7 @@
       border: none;
       padding: 16px 28px;
       border-radius: 2px;
-      cursor: none;
+      cursor: inherit;
       transition: background 0.2s;
       white-space: nowrap;
     }
@@ -910,20 +955,20 @@
       .form-row { grid-template-columns: 1fr; }
       .work-header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .work-note { text-align: left; max-width: none; }
+      .work-tags { justify-content: flex-start; }
       footer { flex-direction: column; gap: 16px; text-align: center; }
       .hero-headline { font-size: clamp(44px, 11vw, 80px); }
       .hero-bottom { flex-direction: column; align-items: flex-start; }
       .service-item { grid-template-columns: 48px 1fr; }
       .service-arrow { display: none; }
-      #cursor, #cursor-ring { display: none; }
+      #cursor-ring { display: none; }
       body { cursor: auto; }
     }
   </style>
 </head>
 <body>
 
-<!-- CURSOR -->
-<div id="cursor"></div>
+<!-- CURSOR RING -->
 <div id="cursor-ring"></div>
 
 <!-- NAV -->
@@ -1047,85 +1092,67 @@
   <div class="work-header">
     <div class="work-title reveal">Recent<br>Work</div>
     <div class="work-note reveal" style="transition-delay:0.1s">
-      Case studies and full portfolio<br>available on request.
+      Trusted by <strong style="color:var(--fg)">Corbin Brown</strong>.
+      <div class="work-tags">
+        <span class="work-tag">AI & Software</span>
+        <span class="work-tag">YouTube Creator</span>
+        <span class="work-tag work-tag--accent" id="cb-subs">— Subscribers</span>
+      </div>
     </div>
   </div>
 
   <div class="work-grid">
-    <div class="work-card reveal" style="transition-delay:0.05s">
-      <div class="work-card-bg"></div>
-      <div class="work-card-noise"></div>
-      <div class="work-card-placeholder">
-        <div class="work-card-icon">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="work-card-coming">Coming Soon</div>
-      </div>
-      <div class="work-card-info">
-        <div class="work-card-label">Long Form</div>
-        <div class="work-card-title">Case Study 01</div>
-      </div>
-    </div>
 
-    <div class="work-card reveal" style="transition-delay:0.1s">
-      <div class="work-card-bg"></div>
+    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=RZPRivY5lVw" target="_blank" rel="noopener" style="transition-delay:0.05s">
+      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/RZPRivY5lVw/maxresdefault.jpg')"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-placeholder">
-        <div class="work-card-icon">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="work-card-coming">Coming Soon</div>
-      </div>
       <div class="work-card-info">
-        <div class="work-card-label">Short Form</div>
-        <div class="work-card-title">Case Study 02</div>
+        <div class="work-card-views"><span class="vc" data-vid="RZPRivY5lVw">— views</span></div>
+        <div class="work-card-label">Long Form · Corbin Brown</div>
+        <div class="work-card-title" data-vid-title="RZPRivY5lVw">Corbin Brown</div>
       </div>
-    </div>
+    </a>
 
-    <div class="work-card reveal" style="transition-delay:0.15s">
-      <div class="work-card-bg"></div>
+    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=FTHP4DnyYE4" target="_blank" rel="noopener" style="transition-delay:0.1s">
+      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/FTHP4DnyYE4/maxresdefault.jpg')"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-placeholder">
-        <div class="work-card-icon">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="work-card-coming">Coming Soon</div>
-      </div>
       <div class="work-card-info">
-        <div class="work-card-label">Podcast</div>
-        <div class="work-card-title">Case Study 03</div>
+        <div class="work-card-views"><span class="vc" data-vid="FTHP4DnyYE4">— views</span></div>
+        <div class="work-card-label">Long Form · Corbin Brown</div>
+        <div class="work-card-title" data-vid-title="FTHP4DnyYE4">Corbin Brown</div>
       </div>
-    </div>
+    </a>
 
-    <div class="work-card reveal" style="transition-delay:0.2s">
-      <div class="work-card-bg"></div>
+    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=htOMgqt7SV4" target="_blank" rel="noopener" style="transition-delay:0.15s">
+      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/htOMgqt7SV4/maxresdefault.jpg')"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-placeholder">
-        <div class="work-card-icon">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="work-card-coming">Coming Soon</div>
-      </div>
       <div class="work-card-info">
-        <div class="work-card-label">Long Form</div>
-        <div class="work-card-title">Case Study 04</div>
+        <div class="work-card-views"><span class="vc" data-vid="htOMgqt7SV4">— views</span></div>
+        <div class="work-card-label">Long Form · Corbin Brown</div>
+        <div class="work-card-title" data-vid-title="htOMgqt7SV4">Corbin Brown</div>
       </div>
-    </div>
+    </a>
 
-    <div class="work-card reveal" style="transition-delay:0.25s">
-      <div class="work-card-bg"></div>
+    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=G7OnoWVb0Yw" target="_blank" rel="noopener" style="transition-delay:0.2s">
+      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/G7OnoWVb0Yw/maxresdefault.jpg')"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-placeholder">
-        <div class="work-card-icon">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="work-card-coming">Coming Soon</div>
-      </div>
       <div class="work-card-info">
-        <div class="work-card-label">Short Form</div>
-        <div class="work-card-title">Case Study 05</div>
+        <div class="work-card-views"><span class="vc" data-vid="G7OnoWVb0Yw">— views</span></div>
+        <div class="work-card-label">Long Form · Corbin Brown</div>
+        <div class="work-card-title" data-vid-title="G7OnoWVb0Yw">Corbin Brown</div>
       </div>
-    </div>
+    </a>
+
+    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=-tz6TAY5pdQ" target="_blank" rel="noopener" style="transition-delay:0.25s">
+      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/-tz6TAY5pdQ/maxresdefault.jpg')"></div>
+      <div class="work-card-noise"></div>
+      <div class="work-card-info">
+        <div class="work-card-views"><span class="vc" data-vid="-tz6TAY5pdQ">— views</span></div>
+        <div class="work-card-label">Long Form · Corbin Brown</div>
+        <div class="work-card-title" data-vid-title="-tz6TAY5pdQ">Corbin Brown</div>
+      </div>
+    </a>
+
   </div>
 </section>
 
@@ -1227,7 +1254,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">1Cut<span>.</span></div>
-  <div class="footer-center">© 2025 1Cut Media. All rights reserved.</div>
+  <div class="footer-center">© 2026 1Cut Media. All rights reserved.</div>
   <div class="footer-right">
     <a href="mailto:noah@1cutmedia.com" class="footer-link">Email</a>
     <a href="#contact" class="footer-link">Start a Project</a>
@@ -1235,15 +1262,12 @@
 </footer>
 
 <script>
-// ── CURSOR ──
-const cursor     = document.getElementById('cursor');
+// ── CURSOR RING ──
 const cursorRing = document.getElementById('cursor-ring');
 let mx = 0, my = 0;
 
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top  = my + 'px';
 });
 
 // Lag ring
@@ -1318,6 +1342,47 @@ form.addEventListener('submit', async e => {
     submitBtn.innerHTML = 'Try Again <span class="btn-arrow">↗</span>';
   }
 });
+
+// ── YOUTUBE STATS ──
+(async function fetchYouTubeStats() {
+  const ids = ['G7OnoWVb0Yw', '-tz6TAY5pdQ', 'FTHP4DnyYE4', 'htOMgqt7SV4', 'RZPRivY5lVw'];
+  const key  = 'AIzaSyC0xicxlYo4uS5Lo7ibMK0K3rwpOJnOgZw';
+  try {
+    // Video stats + titles
+    const res  = await fetch(`https://www.googleapis.com/youtube/v3/videos?id=${ids.join(',')}&key=${key}&part=statistics,snippet`);
+    const data = await res.json();
+    let channelId = null;
+    data.items.forEach(item => {
+      if (!channelId) channelId = item.snippet.channelId;
+      const count = parseInt(item.statistics.viewCount);
+      const views = count >= 1000000
+        ? (count / 1000000).toFixed(1).replace(/\.0$/, '') + 'M views'
+        : count >= 1000
+        ? Math.floor(count / 1000) + 'K views'
+        : count + ' views';
+      const vcEl = document.querySelector(`.vc[data-vid="${item.id}"]`);
+      if (vcEl) vcEl.textContent = views;
+      const titleEl = document.querySelector(`[data-vid-title="${item.id}"]`);
+      if (titleEl) titleEl.textContent = item.snippet.title;
+    });
+    // Channel subscriber count
+    if (channelId) {
+      const chanRes  = await fetch(`https://www.googleapis.com/youtube/v3/channels?id=${channelId}&key=${key}&part=statistics`);
+      const chanData = await chanRes.json();
+      const subs = parseInt(chanData.items[0]?.statistics?.subscriberCount || 0);
+      const subsStr = subs >= 1000000
+        ? (subs / 1000000).toFixed(1).replace(/\.0$/, '') + 'M Subscribers'
+        : subs >= 1000
+        ? Math.floor(subs / 1000) + 'K Subscribers'
+        : subs + ' Subscribers';
+      const subEl = document.getElementById('cb-subs');
+      if (subEl) subEl.textContent = subsStr;
+    }
+  } catch(e) {
+    document.querySelectorAll('.vc').forEach(el => el.textContent = '');
+    document.querySelectorAll('[data-vid-title]').forEach(el => el.textContent = 'Corbin Brown');
+  }
+})();
 
 // ── SMOOTH HASH SCROLL ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {
