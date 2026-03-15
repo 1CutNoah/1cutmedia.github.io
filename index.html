@@ -875,6 +875,59 @@
     .submit-btn .btn-arrow { display: inline-block; transition: transform 0.2s; }
     .submit-btn:hover .btn-arrow { transform: translate(3px, -3px); }
 
+    /* ── MEET BUTTON ── */
+    .meet-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 36px 0 24px;
+    }
+
+    .meet-divider::before,
+    .meet-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--fg-faint);
+    }
+
+    .meet-divider span {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg-faint);
+      white-space: nowrap;
+    }
+
+    .meet-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--syne);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--fg-faint);
+      padding: 14px 24px;
+      border-radius: 2px;
+      cursor: inherit;
+      transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .meet-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 14px rgba(200,255,71,0.15);
+    }
+
+    .meet-btn svg { flex-shrink: 0; }
+
     .form-success {
       display: none;
       padding: 32px;
@@ -1194,6 +1247,23 @@
           <span class="contact-detail-val">1cutmedia.com</span>
         </div>
       </div>
+
+      <div class="meet-divider reveal" style="transition-delay:0.26s">
+        <span>or</span>
+      </div>
+
+      <a
+        href="https://meet.google.com/new"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="meet-btn reveal"
+        style="transition-delay:0.3s"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h7A2.5 2.5 0 0 1 15 6.5v4.25l4.5-3v8.5l-4.5-3V17.5A2.5 2.5 0 0 1 12.5 20h-7A2.5 2.5 0 0 1 3 17.5v-11Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        </svg>
+        Schedule a Google Meet
+      </a>
     </div>
 
     <div class="reveal" style="transition-delay:0.1s">
