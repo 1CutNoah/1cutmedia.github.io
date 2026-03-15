@@ -426,7 +426,7 @@
 
     .about-stat {
       font-family: var(--syne);
-      font-size: 52px;
+      font-size: clamp(32px, 9vw, 52px);
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.03em;
@@ -957,6 +957,17 @@
       .service-arrow { display: none; }
       #cursor-ring { display: none; }
       body { cursor: auto; }
+    }
+
+    /* ── SMALL PHONES (iPhone 15 and below) ── */
+    @media (max-width: 390px) {
+      .hero-headline { font-size: clamp(36px, 10vw, 52px); }
+      .about-stat { font-size: clamp(28px, 8vw, 40px); }
+      .about-statement { font-size: clamp(18px, 5vw, 24px); }
+      .work-title { font-size: clamp(36px, 10vw, 52px); }
+      section { padding: 60px 18px; }
+      #hero { padding: 0 18px 48px; }
+      nav { padding: 18px; }
     }
   </style>
 </head>
