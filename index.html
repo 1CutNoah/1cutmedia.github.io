@@ -1,40 +1,33 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B32VLWN885"></script>
-    <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-B32VLWN885');
-    </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B32VLWN885"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-B32VLWN885');
+</script>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1Cut Media — Elite YouTube Video Editing Agency</title>
-  <meta name="description" content="Boutique post-production studio for YouTube creators and brands. Long form, short form, and podcast editing. Trusted by Corbin Brown (159K subscribers).">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://1cutmedia.com">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="1Cut Media">
-  <meta property="og:title" content="1Cut Media — Elite YouTube Video Editing Agency">
-  <meta property="og:description" content="Boutique post-production studio for YouTube creators and brands. Long form, short form, and podcast editing. Trusted by Corbin Brown (159K subscribers).">
+  <title>1Cut Media â€” Elite Video Editing</title>
+  <meta name="description" content="Boutique post-production studio for YouTube creators and brands who treat content like a product. Long form, short form, and podcast editing.">
+  <meta property="og:title" content="1Cut Media â€” Elite Video Editing">
+  <meta property="og:description" content="Post-production for creators who know the edit is everything.">
   <meta property="og:url" content="https://1cutmedia.com">
-  <meta property="og:image" content="https://1cutmedia.com/og-image.svg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="1Cut Media — Elite YouTube Video Editing Agency">
-  <meta name="twitter:description" content="Boutique post-production studio for YouTube creators and brands. Long form, short form, and podcast editing. Trusted by Corbin Brown (159K subscribers).">
-  <meta name="twitter:image" content="https://1cutmedia.com/og-image.svg">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
-    /* ── RESET ── */
+    /* â”€â”€ RESET â”€â”€ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
-    /* ── TOKENS ── */
+    /* â”€â”€ TOKENS â”€â”€ */
     :root {
       --bg:       #0a0a0a;
       --fg:       #edeae3;
@@ -47,24 +40,51 @@
       --inter:    'Inter', sans-serif;
     }
 
-    /* ── BASE ── */
+    /* â”€â”€ BASE â”€â”€ */
     body {
       font-family: var(--inter);
       background: var(--bg);
       color: var(--fg);
       overflow-x: hidden;
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none'%3E%3Cline x1='2' y1='4' x2='25' y2='22' stroke='%23c8ff47' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='2' y1='16' x2='25' y2='5' stroke='%23c8ff47' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='11.5' r='2.5' fill='%230a0a0a' stroke='%23c8ff47' stroke-width='1.5'/%3E%3Ccircle cx='25' cy='24' r='5.5' stroke='%23c8ff47' stroke-width='1.8'/%3E%3Ccircle cx='25' cy='4' r='4.5' stroke='%23c8ff47' stroke-width='1.8'/%3E%3C/svg%3E") 2 4, auto;
+      cursor: none;
     }
 
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
-    a, button, select { cursor: inherit; }
 
-    /* ── CUSTOM CURSOR ── */
-    #cursor { display: none; }
+    /* â”€â”€ CUSTOM CURSOR â”€â”€ */
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease, width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
+      mix-blend-mode: difference;
+    }
 
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(200,255,71,0.35);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: left 0.18s ease, top 0.18s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
+    }
 
-    /* ── NAV ── */
+    body.cursor-hover #cursor { width: 16px; height: 16px; }
+    body.cursor-hover #cursor-ring {
+      width: 52px; height: 52px;
+      border-color: rgba(200,255,71,0.5);
+    }
+
+    /* â”€â”€ NAV â”€â”€ */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -120,7 +140,7 @@
 
     .nav-cta:hover { background: var(--accent); }
 
-    /* ── HERO ── */
+    /* â”€â”€ HERO â”€â”€ */
     #hero {
       min-height: 100vh;
       display: flex;
@@ -365,7 +385,7 @@
 
     .arrow { display: inline-block; transition: transform 0.2s; }
 
-    /* ── SCROLL REVEAL ── */
+    /* â”€â”€ SCROLL REVEAL â”€â”€ */
     .reveal {
       opacity: 0;
       transform: translateY(24px);
@@ -385,7 +405,7 @@
 
     .reveal-line-inner.visible { transform: translateY(0); }
 
-    /* ── SECTION BASE ── */
+    /* â”€â”€ SECTION BASE â”€â”€ */
     section { padding: 120px 48px; }
 
     .section-tag {
@@ -408,7 +428,7 @@
       background: var(--fg-faint);
     }
 
-    /* ── ABOUT STRIP ── */
+    /* â”€â”€ ABOUT STRIP â”€â”€ */
     #about {
       padding: 72px 48px;
       border-top: 1px solid var(--border);
@@ -436,7 +456,7 @@
 
     .about-stat {
       font-family: var(--syne);
-      font-size: clamp(32px, 9vw, 52px);
+      font-size: 52px;
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.03em;
@@ -466,7 +486,7 @@
       max-width: 560px;
     }
 
-    /* ── SERVICES ── */
+    /* â”€â”€ SERVICES â”€â”€ */
     #services { border-bottom: 1px solid var(--border); }
 
     .services-list { display: flex; flex-direction: column; }
@@ -479,7 +499,7 @@
       border-top: 1px solid var(--border);
       gap: 40px;
       transition: border-color 0.3s;
-      cursor: inherit;
+      cursor: default;
     }
 
     .service-item:last-child { border-bottom: 1px solid var(--border); }
@@ -524,7 +544,7 @@
     .service-item:hover .service-name  { color: var(--accent); }
     .service-item:hover .service-num   { color: var(--fg-dim); }
 
-    /* ── WORK ── */
+    /* â”€â”€ WORK â”€â”€ */
     #work { border-bottom: 1px solid var(--border); }
 
     .work-header {
@@ -543,44 +563,11 @@
     }
 
     .work-note {
-      font-size: 16px;
+      font-size: 13px;
       color: var(--fg-dim);
-      max-width: 260px;
+      max-width: 220px;
       text-align: right;
       line-height: 1.6;
-    }
-
-    .work-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
-      justify-content: flex-end;
-    }
-
-    .work-tag {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #ffffff;
-      border: 1px solid rgba(200,255,71,0.4);
-      padding: 7px 16px;
-      border-radius: 999px;
-      white-space: nowrap;
-      box-shadow: 0 0 8px rgba(200,255,71,0.15);
-    }
-
-    .work-tag--accent {
-      color: #0a0a0a;
-      background: var(--accent);
-      border-color: var(--accent);
-      font-size: 18px;
-      font-weight: 700;
-      padding: 7px 18px;
-      border-radius: 999px;
-      letter-spacing: 0.04em;
-      box-shadow: 0 0 14px rgba(200,255,71,0.45);
     }
 
     .work-grid {
@@ -596,7 +583,7 @@
       overflow: hidden;
       position: relative;
       aspect-ratio: 16/9;
-      cursor: inherit;
+      cursor: pointer;
     }
 
     .work-card:nth-child(1) { grid-column: 1 / 8; }
@@ -689,31 +676,7 @@
 
     .work-card:hover .work-card-coming { color: var(--fg-dim); }
 
-    /* ── LIVE THUMBNAIL CARDS ── */
-    .work-card--live .work-card-bg {
-      background-size: cover;
-      background-position: center;
-    }
-    .work-card--live .work-card-info {
-      opacity: 1;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 70%);
-    }
-    .work-card--live .work-card-title {
-      font-size: 13px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .work-card-views {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 4px;
-    }
-
-    /* ── CONTACT ── */
+    /* â”€â”€ CONTACT â”€â”€ */
     #contact { }
 
     .contact-inner {
@@ -730,10 +693,8 @@
       font-size: clamp(36px, 4vw, 58px);
       font-weight: 800;
       letter-spacing: -0.03em;
-      line-height: 1.2;
+      line-height: 1.05;
       margin-bottom: 24px;
-      overflow: visible;
-      padding-bottom: 10px;
     }
 
     .contact-title span { color: var(--accent); }
@@ -774,7 +735,7 @@
 
     .contact-detail-val:hover { color: var(--fg); }
 
-    /* ── FORM ── */
+    /* â”€â”€ FORM â”€â”€ */
     .contact-form { display: flex; flex-direction: column; gap: 0; }
 
     .form-row {
@@ -824,7 +785,7 @@
     .form-field textarea::placeholder { color: var(--fg-faint); }
 
     .form-field select {
-      cursor: inherit;
+      cursor: pointer;
       appearance: none;
       -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23444' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
@@ -865,7 +826,7 @@
       border: none;
       padding: 16px 28px;
       border-radius: 2px;
-      cursor: inherit;
+      cursor: none;
       transition: background 0.2s;
       white-space: nowrap;
     }
@@ -874,59 +835,6 @@
     .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .submit-btn .btn-arrow { display: inline-block; transition: transform 0.2s; }
     .submit-btn:hover .btn-arrow { transform: translate(3px, -3px); }
-
-    /* ── MEET BUTTON ── */
-    .meet-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 36px 0 24px;
-    }
-
-    .meet-divider::before,
-    .meet-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--fg-faint);
-    }
-
-    .meet-divider span {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--fg-faint);
-      white-space: nowrap;
-    }
-
-    .meet-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--syne);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: transparent;
-      color: var(--fg);
-      border: 1px solid var(--fg-faint);
-      padding: 14px 24px;
-      border-radius: 2px;
-      cursor: inherit;
-      transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
-      white-space: nowrap;
-      text-decoration: none;
-    }
-
-    .meet-btn:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      box-shadow: 0 0 14px rgba(200,255,71,0.15);
-    }
-
-    .meet-btn svg { flex-shrink: 0; }
 
     .form-success {
       display: none;
@@ -957,7 +865,7 @@
       color: var(--fg-dim);
     }
 
-    /* ── FOOTER ── */
+    /* â”€â”€ FOOTER â”€â”€ */
     footer {
       border-top: 1px solid var(--border);
       padding: 40px 48px;
@@ -995,7 +903,7 @@
 
     .footer-link:hover { color: var(--fg); }
 
-    /* ── MOBILE ── */
+    /* â”€â”€ MOBILE â”€â”€ */
     @media (max-width: 900px) {
       nav { padding: 22px 24px; }
       .nav-link { display: none; }
@@ -1012,33 +920,21 @@
       .form-row { grid-template-columns: 1fr; }
       .work-header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .work-note { text-align: left; max-width: none; }
-      .work-tags { justify-content: flex-start; }
-      .work-tag { font-size: 10px; padding: 4px 10px; }
-      .work-tag--accent { font-size: 12px; padding: 4px 11px; }
       footer { flex-direction: column; gap: 16px; text-align: center; }
       .hero-headline { font-size: clamp(44px, 11vw, 80px); }
       .hero-bottom { flex-direction: column; align-items: flex-start; }
       .service-item { grid-template-columns: 48px 1fr; }
       .service-arrow { display: none; }
-      #cursor-ring { display: none; }
+      #cursor, #cursor-ring { display: none; }
       body { cursor: auto; }
-    }
-
-    /* ── SMALL PHONES (iPhone 15 and below) ── */
-    @media (max-width: 390px) {
-      .hero-headline { font-size: clamp(36px, 10vw, 52px); }
-      .about-stat { font-size: clamp(28px, 8vw, 40px); }
-      .about-statement { font-size: clamp(18px, 5vw, 24px); }
-      .work-title { font-size: clamp(36px, 10vw, 52px); }
-      section { padding: 60px 18px; }
-      #hero { padding: 0 18px 48px; }
-      nav { padding: 18px; }
     }
   </style>
 </head>
 <body>
 
-<!-- CURSOR RING -->
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
 <!-- NAV -->
 <nav>
@@ -1060,7 +956,7 @@
   <div class="hero-line-accent"></div>
 
   <div class="hero-label" id="hero-label" style="position:relative;z-index:2;">
-    Post-Production Studio &nbsp;·&nbsp; 1cutmedia.com
+    Post-Production Studio &nbsp;Â·&nbsp; 1cutmedia.com
   </div>
 
   <h1 class="hero-headline" style="position:relative;z-index:2;">
@@ -1071,10 +967,10 @@
   <div class="hero-bottom" style="position:relative;z-index:2;">
     <p class="hero-sub" id="hero-sub">
       <strong>1Cut Media</strong> delivers post-production for YouTube creators and brands
-      who treat their content like a product — not an afterthought.
+      who treat their content like a product â€” not an afterthought.
     </p>
     <a href="#contact" class="hero-cta" id="hero-cta">
-      Start a Project <span class="arrow">↗</span>
+      Start a Project <span class="arrow">â†—</span>
     </a>
   </div>
 </section>
@@ -1083,22 +979,22 @@
 <div class="marquee-strip">
   <div class="marquee-track">
     <!-- Repeated twice for seamless loop -->
-    <div class="marquee-item">Long Form Editing <span>·</span></div>
-    <div class="marquee-item">Short Form Editing <span>·</span></div>
-    <div class="marquee-item">Podcast Editing <span>·</span></div>
-    <div class="marquee-item">1Cut Media <span>·</span></div>
-    <div class="marquee-item">YouTube Creators <span>·</span></div>
-    <div class="marquee-item">Brands <span>·</span></div>
-    <div class="marquee-item">Post-Production <span>·</span></div>
-    <div class="marquee-item">Elite Editing <span>·</span></div>
-    <div class="marquee-item">Long Form Editing <span>·</span></div>
-    <div class="marquee-item">Short Form Editing <span>·</span></div>
-    <div class="marquee-item">Podcast Editing <span>·</span></div>
-    <div class="marquee-item">1Cut Media <span>·</span></div>
-    <div class="marquee-item">YouTube Creators <span>·</span></div>
-    <div class="marquee-item">Brands <span>·</span></div>
-    <div class="marquee-item">Post-Production <span>·</span></div>
-    <div class="marquee-item">Elite Editing <span>·</span></div>
+    <div class="marquee-item">Long Form Editing <span>Â·</span></div>
+    <div class="marquee-item">Short Form Editing <span>Â·</span></div>
+    <div class="marquee-item">Podcast Editing <span>Â·</span></div>
+    <div class="marquee-item">1Cut Media <span>Â·</span></div>
+    <div class="marquee-item">YouTube Creators <span>Â·</span></div>
+    <div class="marquee-item">Brands <span>Â·</span></div>
+    <div class="marquee-item">Post-Production <span>Â·</span></div>
+    <div class="marquee-item">Elite Editing <span>Â·</span></div>
+    <div class="marquee-item">Long Form Editing <span>Â·</span></div>
+    <div class="marquee-item">Short Form Editing <span>Â·</span></div>
+    <div class="marquee-item">Podcast Editing <span>Â·</span></div>
+    <div class="marquee-item">1Cut Media <span>Â·</span></div>
+    <div class="marquee-item">YouTube Creators <span>Â·</span></div>
+    <div class="marquee-item">Brands <span>Â·</span></div>
+    <div class="marquee-item">Post-Production <span>Â·</span></div>
+    <div class="marquee-item">Elite Editing <span>Â·</span></div>
   </div>
 </div>
 
@@ -1114,7 +1010,7 @@
         We don't work with everyone.<br>We work with the right people.
       </p>
       <p class="about-body reveal" style="transition-delay:0.18s">
-        1Cut Media is a selective post-production studio. We partner with a small roster of YouTube creators and forward-thinking brands who understand that great editing isn't a cost — it's a competitive advantage.
+        1Cut Media is a selective post-production studio. We partner with a small roster of YouTube creators and forward-thinking brands who understand that great editing isn't a cost â€” it's a competitive advantage.
       </p>
     </div>
   </div>
@@ -1130,9 +1026,9 @@
       <div class="service-num">01</div>
       <div class="service-body">
         <div class="service-name">Long Form</div>
-        <div class="service-desc">Deep storytelling. Precise pacing. Every second earns its place — from the hook to the final frame.</div>
+        <div class="service-desc">Deep storytelling. Precise pacing. Every second earns its place â€” from the hook to the final frame.</div>
       </div>
-      <div class="service-arrow">↗</div>
+      <div class="service-arrow">â†—</div>
     </div>
 
     <div class="service-item reveal" style="transition-delay:0.1s">
@@ -1141,7 +1037,7 @@
         <div class="service-name">Short Form</div>
         <div class="service-desc">Hooks that hold. Cuts that count. Engineered for the scroll, designed to stop it.</div>
       </div>
-      <div class="service-arrow">↗</div>
+      <div class="service-arrow">â†—</div>
     </div>
 
     <div class="service-item reveal" style="transition-delay:0.15s">
@@ -1150,7 +1046,7 @@
         <div class="service-name">Podcast</div>
         <div class="service-desc">Clean audio, sharp sequencing, and production that reflects the quality of your conversation.</div>
       </div>
-      <div class="service-arrow">↗</div>
+      <div class="service-arrow">â†—</div>
     </div>
 
   </div>
@@ -1161,67 +1057,85 @@
   <div class="work-header">
     <div class="work-title reveal">Recent<br>Work</div>
     <div class="work-note reveal" style="transition-delay:0.1s">
-      Trusted by <strong style="color:var(--fg)">Corbin Brown</strong>.
-      <div class="work-tags">
-        <span class="work-tag">AI & Software</span>
-        <span class="work-tag">YouTube Creator</span>
-        <span class="work-tag work-tag--accent" id="cb-subs">— Subscribers</span>
-      </div>
+      Case studies and full portfolio<br>available on request.
     </div>
   </div>
 
   <div class="work-grid">
-
-    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=RZPRivY5lVw" target="_blank" rel="noopener" style="transition-delay:0.05s">
-      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/RZPRivY5lVw/maxresdefault.jpg')"></div>
+    <div class="work-card reveal" style="transition-delay:0.05s">
+      <div class="work-card-bg"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-info">
-        <div class="work-card-views"><span class="vc" data-vid="RZPRivY5lVw">— views</span></div>
-        <div class="work-card-label">Long Form · Corbin Brown</div>
-        <div class="work-card-title" data-vid-title="RZPRivY5lVw">Corbin Brown</div>
+      <div class="work-card-placeholder">
+        <div class="work-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="work-card-coming">Coming Soon</div>
       </div>
-    </a>
+      <div class="work-card-info">
+        <div class="work-card-label">Long Form</div>
+        <div class="work-card-title">Case Study 01</div>
+      </div>
+    </div>
 
-    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=FTHP4DnyYE4" target="_blank" rel="noopener" style="transition-delay:0.1s">
-      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/FTHP4DnyYE4/maxresdefault.jpg')"></div>
+    <div class="work-card reveal" style="transition-delay:0.1s">
+      <div class="work-card-bg"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-info">
-        <div class="work-card-views"><span class="vc" data-vid="FTHP4DnyYE4">— views</span></div>
-        <div class="work-card-label">Long Form · Corbin Brown</div>
-        <div class="work-card-title" data-vid-title="FTHP4DnyYE4">Corbin Brown</div>
+      <div class="work-card-placeholder">
+        <div class="work-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="work-card-coming">Coming Soon</div>
       </div>
-    </a>
+      <div class="work-card-info">
+        <div class="work-card-label">Short Form</div>
+        <div class="work-card-title">Case Study 02</div>
+      </div>
+    </div>
 
-    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=-tz6TAY5pdQ" target="_blank" rel="noopener" style="transition-delay:0.15s">
-      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/-tz6TAY5pdQ/maxresdefault.jpg')"></div>
+    <div class="work-card reveal" style="transition-delay:0.15s">
+      <div class="work-card-bg"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-info">
-        <div class="work-card-views"><span class="vc" data-vid="-tz6TAY5pdQ">— views</span></div>
-        <div class="work-card-label">Long Form · Corbin Brown</div>
-        <div class="work-card-title" data-vid-title="-tz6TAY5pdQ">Corbin Brown</div>
+      <div class="work-card-placeholder">
+        <div class="work-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="work-card-coming">Coming Soon</div>
       </div>
-    </a>
+      <div class="work-card-info">
+        <div class="work-card-label">Podcast</div>
+        <div class="work-card-title">Case Study 03</div>
+      </div>
+    </div>
 
-    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=G7OnoWVb0Yw" target="_blank" rel="noopener" style="transition-delay:0.2s">
-      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/G7OnoWVb0Yw/maxresdefault.jpg')"></div>
+    <div class="work-card reveal" style="transition-delay:0.2s">
+      <div class="work-card-bg"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-info">
-        <div class="work-card-views"><span class="vc" data-vid="G7OnoWVb0Yw">— views</span></div>
-        <div class="work-card-label">Long Form · Corbin Brown</div>
-        <div class="work-card-title" data-vid-title="G7OnoWVb0Yw">Corbin Brown</div>
+      <div class="work-card-placeholder">
+        <div class="work-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="work-card-coming">Coming Soon</div>
       </div>
-    </a>
+      <div class="work-card-info">
+        <div class="work-card-label">Long Form</div>
+        <div class="work-card-title">Case Study 04</div>
+      </div>
+    </div>
 
-    <a class="work-card work-card--live reveal" href="https://www.youtube.com/watch?v=htOMgqt7SV4" target="_blank" rel="noopener" style="transition-delay:0.25s">
-      <div class="work-card-bg" style="background-image:url('https://img.youtube.com/vi/htOMgqt7SV4/maxresdefault.jpg')"></div>
+    <div class="work-card reveal" style="transition-delay:0.25s">
+      <div class="work-card-bg"></div>
       <div class="work-card-noise"></div>
-      <div class="work-card-info">
-        <div class="work-card-views"><span class="vc" data-vid="htOMgqt7SV4">— views</span></div>
-        <div class="work-card-label">Long Form · Corbin Brown</div>
-        <div class="work-card-title" data-vid-title="htOMgqt7SV4">Corbin Brown</div>
+      <div class="work-card-placeholder">
+        <div class="work-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="work-card-coming">Coming Soon</div>
       </div>
-    </a>
-
+      <div class="work-card-info">
+        <div class="work-card-label">Short Form</div>
+        <div class="work-card-title">Case Study 05</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1232,7 +1146,7 @@
     <div class="contact-left">
       <div class="section-tag reveal">Get in Touch</div>
       <h2 class="contact-title reveal" style="transition-delay:0.08s">
-        Let's talk<br>about your<br><span style="display:inline-block; padding-bottom:16px; color:var(--accent);">next project.</span>
+        Let's talk<br>about your<br><span>next project.</span>
       </h2>
       <p class="contact-desc reveal" style="transition-delay:0.14s">
         Tell us about what you're building. We respond to every inquiry within 24 hours.
@@ -1247,23 +1161,6 @@
           <span class="contact-detail-val">1cutmedia.com</span>
         </div>
       </div>
-
-      <div class="meet-divider reveal" style="transition-delay:0.26s">
-        <span>or</span>
-      </div>
-
-      <a
-        href="https://calendar.google.com/calendar/r/eventedit?add=noah@1cutmedia.com&text=Meeting+with+1Cut+Media"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="meet-btn reveal"
-        style="transition-delay:0.3s"
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h7A2.5 2.5 0 0 1 15 6.5v4.25l4.5-3v8.5l-4.5-3V17.5A2.5 2.5 0 0 1 12.5 20h-7A2.5 2.5 0 0 1 3 17.5v-11Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-        </svg>
-        Schedule a Google Meet
-      </a>
     </div>
 
     <div class="reveal" style="transition-delay:0.1s">
@@ -1273,7 +1170,7 @@
         action="https://formspree.io/f/myknjrqb"
         method="POST"
       >
-        <input type="hidden" name="_subject" value="New Project Inquiry — 1Cut Media">
+        <input type="hidden" name="_subject" value="New Project Inquiry â€” 1Cut Media">
 
         <div class="form-row">
           <div class="form-field">
@@ -1298,7 +1195,7 @@
 
         <div class="form-field">
           <label>Project Description</label>
-          <textarea name="description" placeholder="Tell us about your content, style, and what you're looking for…" required></textarea>
+          <textarea name="description" placeholder="Tell us about your content, style, and what you're looking forâ€¦" required></textarea>
         </div>
 
         <div class="form-row">
@@ -1307,8 +1204,8 @@
             <select name="budget" required>
               <option value="" disabled selected>Select range</option>
               <option value="Under $500/mo">Under $500 / mo</option>
-              <option value="$500–$1,500/mo">$500 – $1,500 / mo</option>
-              <option value="$1,500–$3,000/mo">$1,500 – $3,000 / mo</option>
+              <option value="$500â€“$1,500/mo">$500 â€“ $1,500 / mo</option>
+              <option value="$1,500â€“$3,000/mo">$1,500 â€“ $3,000 / mo</option>
               <option value="$3,000+/mo">$3,000+ / mo</option>
               <option value="One-time project">One-time project</option>
             </select>
@@ -1322,13 +1219,13 @@
         <div class="form-submit">
           <p class="form-note">We typically respond<br>within 24 hours.</p>
           <button type="submit" class="submit-btn" id="submit-btn">
-            Send Inquiry <span class="btn-arrow">↗</span>
+            Send Inquiry <span class="btn-arrow">â†—</span>
           </button>
         </div>
       </form>
 
       <div class="form-success" id="form-success">
-        <div class="form-success-icon">✦</div>
+        <div class="form-success-icon">âœ¦</div>
         <h3>We got it.</h3>
         <p>Thanks for reaching out. We'll be in touch within 24 hours.</p>
       </div>
@@ -1340,7 +1237,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">1Cut<span>.</span></div>
-  <div class="footer-center">© 2026 1Cut Media. All rights reserved.</div>
+  <div class="footer-center">Â© 2025 1Cut Media. All rights reserved.</div>
   <div class="footer-right">
     <a href="mailto:noah@1cutmedia.com" class="footer-link">Email</a>
     <a href="#contact" class="footer-link">Start a Project</a>
@@ -1348,8 +1245,35 @@
 </footer>
 
 <script>
+// â”€â”€ CURSOR â”€â”€
+const cursor     = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursor-ring');
+let mx = 0, my = 0;
 
-// ── HERO ENTRANCE ──
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+// Lag ring
+let rx = 0, ry = 0;
+function animateRing() {
+  rx += (mx - rx) * 0.14;
+  ry += (my - ry) * 0.14;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top  = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// Hover state
+document.querySelectorAll('a, button, .work-card, .service-item, select').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// â”€â”€ HERO ENTRANCE â”€â”€
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('hero-label').classList.add('visible');
@@ -1360,7 +1284,7 @@ window.addEventListener('load', () => {
   }, 80);
 });
 
-// ── SCROLL REVEAL ──
+// â”€â”€ SCROLL REVEAL â”€â”€
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1375,7 +1299,7 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// ── FORM SUBMIT ──
+// â”€â”€ FORM SUBMIT â”€â”€
 const form    = document.getElementById('intake-form');
 const success = document.getElementById('form-success');
 const submitBtn = document.getElementById('submit-btn');
@@ -1383,7 +1307,7 @@ const submitBtn = document.getElementById('submit-btn');
 form.addEventListener('submit', async e => {
   e.preventDefault();
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Sending…';
+  submitBtn.textContent = 'Sendingâ€¦';
 
   try {
     const res = await fetch(form.action, {
@@ -1397,56 +1321,15 @@ form.addEventListener('submit', async e => {
       success.classList.add('show');
     } else {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Try Again <span class="btn-arrow">↗</span>';
+      submitBtn.innerHTML = 'Try Again <span class="btn-arrow">â†—</span>';
     }
   } catch {
     submitBtn.disabled = false;
-    submitBtn.innerHTML = 'Try Again <span class="btn-arrow">↗</span>';
+    submitBtn.innerHTML = 'Try Again <span class="btn-arrow">â†—</span>';
   }
 });
 
-// ── YOUTUBE STATS ──
-(async function fetchYouTubeStats() {
-  const ids = ['G7OnoWVb0Yw', '-tz6TAY5pdQ', 'FTHP4DnyYE4', 'htOMgqt7SV4', 'RZPRivY5lVw'];
-  const key  = 'AIzaSyC0xicxlYo4uS5Lo7ibMK0K3rwpOJnOgZw';
-  try {
-    // Video stats + titles
-    const res  = await fetch(`https://www.googleapis.com/youtube/v3/videos?id=${ids.join(',')}&key=${key}&part=statistics,snippet`);
-    const data = await res.json();
-    let channelId = null;
-    data.items.forEach(item => {
-      if (!channelId) channelId = item.snippet.channelId;
-      const count = parseInt(item.statistics.viewCount);
-      const views = count >= 1000000
-        ? (count / 1000000).toFixed(1).replace(/\.0$/, '') + 'M views'
-        : count >= 1000
-        ? Math.floor(count / 1000) + 'K views'
-        : count + ' views';
-      const vcEl = document.querySelector(`.vc[data-vid="${item.id}"]`);
-      if (vcEl) vcEl.textContent = views;
-      const titleEl = document.querySelector(`[data-vid-title="${item.id}"]`);
-      if (titleEl) titleEl.textContent = item.snippet.title;
-    });
-    // Channel subscriber count
-    if (channelId) {
-      const chanRes  = await fetch(`https://www.googleapis.com/youtube/v3/channels?id=${channelId}&key=${key}&part=statistics`);
-      const chanData = await chanRes.json();
-      const subs = parseInt(chanData.items[0]?.statistics?.subscriberCount || 0);
-      const subsStr = subs >= 1000000
-        ? (subs / 1000000).toFixed(1).replace(/\.0$/, '') + 'M Subscribers'
-        : subs >= 1000
-        ? Math.floor(subs / 1000) + 'K Subscribers'
-        : subs + ' Subscribers';
-      const subEl = document.getElementById('cb-subs');
-      if (subEl) subEl.textContent = subsStr;
-    }
-  } catch(e) {
-    document.querySelectorAll('.vc').forEach(el => el.textContent = '');
-    document.querySelectorAll('[data-vid-title]').forEach(el => el.textContent = 'Corbin Brown');
-  }
-})();
-
-// ── SMOOTH HASH SCROLL ──
+// â”€â”€ SMOOTH HASH SCROLL â”€â”€
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const target = document.querySelector(a.getAttribute('href'));
@@ -1459,3 +1342,4 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 </script>
 </body>
 </html>
+
