@@ -11,9 +11,9 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1Cut Media â€” Elite Video Editing</title>
+  <title>1Cut Media &#x2013; Elite Video Editing</title>
   <meta name="description" content="Boutique post-production studio for YouTube creators and brands who treat content like a product. Long form, short form, and podcast editing.">
-  <meta property="og:title" content="1Cut Media â€” Elite Video Editing">
+  <meta property=”og:title” content=”1Cut Media &#x2013; Elite Video Editing”>
   <meta property="og:description" content="Post-production for creators who know the edit is everything.">
   <meta property="og:url" content="https://1cutmedia.com">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -967,10 +967,10 @@
   <div class="hero-bottom" style="position:relative;z-index:2;">
     <p class="hero-sub" id="hero-sub">
       <strong>1Cut Media</strong> delivers post-production for YouTube creators and brands
-      who treat their content like a product â€” not an afterthought.
+      who treat their content like a product &#x2013; not an afterthought.
     </p>
     <a href="#contact" class="hero-cta" id="hero-cta">
-      Start a Project <span class="arrow">â†—</span>
+      Start a Project <span class="arrow">&#x2197;</span>
     </a>
   </div>
 </section>
@@ -1010,7 +1010,7 @@
         We don't work with everyone.<br>We work with the right people.
       </p>
       <p class="about-body reveal" style="transition-delay:0.18s">
-        1Cut Media is a selective post-production studio. We partner with a small roster of YouTube creators and forward-thinking brands who understand that great editing isn't a cost â€” it's a competitive advantage.
+        1Cut Media is a selective post-production studio. We partner with a small roster of YouTube creators and forward-thinking brands who understand that great editing isn't a cost &#x2013; it's a competitive advantage.
       </p>
     </div>
   </div>
@@ -1026,9 +1026,9 @@
       <div class="service-num">01</div>
       <div class="service-body">
         <div class="service-name">Long Form</div>
-        <div class="service-desc">Deep storytelling. Precise pacing. Every second earns its place â€” from the hook to the final frame.</div>
+        <div class="service-desc">Deep storytelling. Precise pacing. Every second earns its place &#x2013; from the hook to the final frame.</div>
       </div>
-      <div class="service-arrow">â†—</div>
+      <div class="service-arrow">&#x2197;</div>
     </div>
 
     <div class="service-item reveal" style="transition-delay:0.1s">
@@ -1037,7 +1037,7 @@
         <div class="service-name">Short Form</div>
         <div class="service-desc">Hooks that hold. Cuts that count. Engineered for the scroll, designed to stop it.</div>
       </div>
-      <div class="service-arrow">â†—</div>
+      <div class="service-arrow">&#x2197;</div>
     </div>
 
     <div class="service-item reveal" style="transition-delay:0.15s">
@@ -1046,7 +1046,7 @@
         <div class="service-name">Podcast</div>
         <div class="service-desc">Clean audio, sharp sequencing, and production that reflects the quality of your conversation.</div>
       </div>
-      <div class="service-arrow">â†—</div>
+      <div class="service-arrow">&#x2197;</div>
     </div>
 
   </div>
@@ -1170,7 +1170,7 @@
         action="https://formspree.io/f/myknjrqb"
         method="POST"
       >
-        <input type="hidden" name="_subject" value="New Project Inquiry â€” 1Cut Media">
+        <input type="hidden" name="_subject" value="New Project Inquiry &#x2013; 1Cut Media">
 
         <div class="form-row">
           <div class="form-field">
@@ -1195,7 +1195,7 @@
 
         <div class="form-field">
           <label>Project Description</label>
-          <textarea name="description" placeholder="Tell us about your content, style, and what you're looking forâ€¦" required></textarea>
+          <textarea name="description" placeholder="Tell us about your content, style, and what you're looking for&#x2026;" required></textarea>
         </div>
 
         <div class="form-row">
@@ -1219,13 +1219,13 @@
         <div class="form-submit">
           <p class="form-note">We typically respond<br>within 24 hours.</p>
           <button type="submit" class="submit-btn" id="submit-btn">
-            Send Inquiry <span class="btn-arrow">â†—</span>
+            Send Inquiry <span class="btn-arrow">&#x2197;</span>
           </button>
         </div>
       </form>
 
       <div class="form-success" id="form-success">
-        <div class="form-success-icon">âœ¦</div>
+        <div class="form-success-icon">&#x2726;</div>
         <h3>We got it.</h3>
         <p>Thanks for reaching out. We'll be in touch within 24 hours.</p>
       </div>
@@ -1307,7 +1307,7 @@ const submitBtn = document.getElementById('submit-btn');
 form.addEventListener('submit', async e => {
   e.preventDefault();
   submitBtn.disabled = true;
-  submitBtn.textContent = 'Sendingâ€¦';
+  submitBtn.textContent = 'Sending&#x2026;';
 
   try {
     const res = await fetch(form.action, {
@@ -1321,11 +1321,11 @@ form.addEventListener('submit', async e => {
       success.classList.add('show');
     } else {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Try Again <span class="btn-arrow">â†—</span>';
+      submitBtn.innerHTML = 'Try Again <span class="btn-arrow">&#x2197;</span>';
     }
   } catch {
     submitBtn.disabled = false;
-    submitBtn.innerHTML = 'Try Again <span class="btn-arrow">â†—</span>';
+    submitBtn.innerHTML = 'Try Again <span class="btn-arrow">&#x2197;</span>';
   }
 });
 
