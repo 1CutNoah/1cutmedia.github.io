@@ -1026,6 +1026,89 @@
       body { cursor: auto; }
     }
 
+    /* ── LAKESHOWYO BLOCK ── */
+    .client-divider {
+      border-top: 1px solid var(--border);
+      margin: 64px 0;
+    }
+
+    .lsy-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      max-width: 480px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .lsy-card:hover {
+      border-color: rgba(200,255,71,0.4);
+      background: #161615;
+    }
+
+    .lsy-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .lsy-info { flex: 1; }
+
+    .lsy-name {
+      font-family: var(--syne);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--fg);
+    }
+
+    .lsy-handle {
+      font-size: 14px;
+      color: var(--fg-dim);
+      margin-top: 2px;
+    }
+
+    .lsy-meta {
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .lsy-arrow {
+      font-size: 20px;
+      color: var(--fg-dim);
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .lsy-card:hover .lsy-arrow {
+      color: var(--accent);
+      transform: translate(3px, -3px);
+    }
+
+    .lsy-quote {
+      margin-top: 20px;
+      max-width: 480px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--fg-dim);
+      font-style: italic;
+      padding-left: 14px;
+      border-left: 2px solid var(--accent);
+    }
+
+    .lsy-quote-attr {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--fg-faint);
+      font-style: normal;
+      padding-left: 14px;
+    }
+
     /* ── SMALL PHONES (iPhone 15 and below) ── */
     @media (max-width: 390px) {
       .hero-headline { font-size: clamp(36px, 10vw, 52px); }
@@ -1225,6 +1308,36 @@
     </a>
 
   </div>
+
+  <!-- LAKESHOWYO -->
+  <div class="client-divider reveal"></div>
+
+  <div class="reveal" style="transition-delay:0.05s">
+    <div class="work-header" style="margin-bottom: 32px;">
+      <div class="work-title" style="font-size: clamp(24px, 3vw, 44px); line-height:1;">Also on<br>Twitter / X</div>
+      <div class="work-note">
+        Worked with <strong style="color:var(--fg)">@LakeShowYo</strong>.
+        <div class="work-tags">
+          <span class="work-tag">Twitter / X</span>
+          <span class="work-tag">NBA Content</span>
+          <span class="work-tag work-tag--accent">581K Followers</span>
+        </div>
+      </div>
+    </div>
+
+    <a class="lsy-card" href="https://twitter.com/LakeShowYo" target="_blank" rel="noopener">
+      <img class="lsy-avatar" src="https://unavatar.io/twitter/LakeShowYo" alt="@LakeShowYo avatar">
+      <div class="lsy-info">
+        <div class="lsy-name">LakeShowYo</div>
+        <div class="lsy-handle">@LakeShowYo</div>
+        <div class="lsy-meta">581K Followers · Twitter / X</div>
+      </div>
+      <div class="lsy-arrow">↗</div>
+    </a>
+    <p class="lsy-quote">"1Cut Media was a game changer for my page. They came in with a real strategy and the editing to back it up. The growth spoke for itself."</p>
+    <p class="lsy-quote-attr">— @LakeShowYo</p>
+  </div>
+
 </section>
 
 <!-- CONTACT -->
