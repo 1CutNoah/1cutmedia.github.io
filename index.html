@@ -128,6 +128,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: flex-start;
       padding: 80px 48px 48px;
       position: relative;
       overflow: hidden;
@@ -297,7 +298,7 @@
       font-size: clamp(52px, 8.5vw, 132px);
       line-height: 0.92;
       letter-spacing: -0.03em;
-      margin-bottom: 48px;
+      margin-bottom: 36px;
     }
 
     .hero-line {
@@ -341,29 +342,47 @@
 
     .hero-sub strong { color: var(--fg); font-weight: 500; }
 
-    .hero-cta {
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.7s ease 0.7s, transform 0.7s ease 0.7s;
+    }
+
+    .hero-buttons.visible { opacity: 1; transform: translateY(0); }
+
+    .hero-btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       font-family: var(--syne);
       font-size: 14px;
       font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--fg);
-      border: 1px solid var(--fg-faint);
-      padding: 16px 28px;
-      border-radius: 2px;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-      white-space: nowrap;
-      opacity: 0;
-      transition: border-color 0.2s, color 0.2s, background 0.2s, opacity 0.7s ease 0.7s, transform 0.7s ease 0.7s;
-      transform: translateY(14px);
+      background: var(--fg);
+      color: var(--bg);
+      padding: 16px 32px;
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s;
     }
 
-    .hero-cta.visible { opacity: 1; transform: translateY(0); }
-    .hero-cta:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-    .hero-cta:hover .arrow { transform: translate(3px, -3px); }
+    .hero-btn-primary:hover { background: var(--accent); }
+
+    .hero-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--syne);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--fg);
+      border: 1px solid var(--fg-faint);
+      padding: 16px 32px;
+      border-radius: 999px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .hero-btn-secondary:hover { border-color: var(--fg); }
 
     .arrow { display: inline-block; transition: transform 0.2s; }
 
@@ -1213,30 +1232,23 @@
 
 <!-- HERO -->
 <section id="hero">
-  <!-- Background effects -->
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-orb hero-orb-3"></div>
-  <div class="hero-grain"></div>
-  <div class="hero-line-accent"></div>
-
-  <div class="hero-label" id="hero-label" style="position:relative;z-index:2;">
-    Post-Production Studio &nbsp;·&nbsp; 1cutmedia.com
+  <div class="hero-label" id="hero-label">
+    Post-Production Studio
   </div>
 
-  <h1 class="hero-headline" style="position:relative;z-index:2;">
+  <h1 class="hero-headline">
     <span class="hero-line"><span class="hero-line-inner" id="hl1">One Cut.</span></span>
     <span class="hero-line"><span class="hero-line-inner accent" id="hl2">No Misses.</span></span>
   </h1>
 
-  <div class="hero-bottom" style="position:relative;z-index:2;">
-    <p class="hero-sub" id="hero-sub">
-      <strong>1Cut Media</strong> delivers post-production for YouTube creators and brands
-      who treat their content like a product — not an afterthought.
-    </p>
-    <a href="#contact" class="hero-cta" id="hero-cta">
-      Start a Project <span class="arrow">↗</span>
-    </a>
+  <p class="hero-sub" id="hero-sub">
+    <strong>1Cut Media</strong> delivers post-production for YouTube creators and brands
+    who treat their content like a product — not an afterthought.
+  </p>
+
+  <div class="hero-buttons" id="hero-buttons">
+    <a href="#contact" class="hero-btn-primary">Get started <span class="arrow">→</span></a>
+    <a href="#work" class="hero-btn-secondary">See work</a>
   </div>
 </section>
 
@@ -1547,7 +1559,7 @@ window.addEventListener('load', () => {
     document.getElementById('hl1').classList.add('visible');
     document.getElementById('hl2').classList.add('visible');
     document.getElementById('hero-sub').classList.add('visible');
-    document.getElementById('hero-cta').classList.add('visible');
+    document.getElementById('hero-buttons').classList.add('visible');
   }, 80);
 });
 
