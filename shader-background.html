@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Shader Background</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  :root {
+    --fg: oklch(0.96 0.005 250);
+    --fg-dim: oklch(0.7 0.01 250 / 0.7);
+    --fg-faint: oklch(0.6 0.01 250 / 0.45);
+    --glass: oklch(0.18 0.01 250 / 0.55);
+    --glass-stroke: oklch(1 0 0 / 0.08);
+    --accent: oklch(0.85 0.12 220);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; background: #06070a; }
+  canvas#stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* ---------- top-left identity ---------- */
+  .id {
+    position: fixed; top: 22px; left: 24px; z-index: 10;
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-dim);
+    user-select: none;
+  }
+  .id .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+  .id .label { color: var(--fg); }
+  .id .sep { color: var(--fg-faint); }
+
+  /* ---------- top-right hint ---------- */
+  .hint {
+    position: fixed; top: 22px; right: 24px; z-index: 10;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--fg-dim);
+    display: flex; gap: 18px; align-items: center;
+    user-select: none;
+  }
+  .hint span b { color: var(--fg); font-weight: 500; padding: 2px 6px; border: 1px solid var(--glass-stroke); border-radius: 4px; background: oklch(1 0 0 / 0.04); margin-right: 6px; }
+
+  /* ---------- bottom dock ---------- */
+  .dock {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    z-index: 10;
+    display: flex; align-items: stretch; gap: 6px;
+    padding: 8px;
+    background: var(--glass);
+    border: 1px solid var(--glass-stroke);
+    border-radius: 18px;
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6), inset 0 1px 0 oklch(1 0 0 / 0.06);
+    user-select: none;
+  }
+  .dock button {
+    appearance: none; background: transparent; border: none; color: var(--fg-dim);
+    font-family: inherit; font-size: 13px; font-weight: 500;
+    padding: 10px 14px 10px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: background 200ms ease, color 200ms ease;
+    min-width: 0;
+  }
+  .dock button .swatch {
+    width: 22px; height: 22px; border-radius: 7px;
+    border: 1px solid oklch(1 0 0 / 0.12);
+    flex-shrink: 0;
+    position: relative; overflow: hidden;
+  }
+  .dock button .swatch::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 8px rgba(0,0,0,0.3); border-radius: inherit; }
+  .dock button .meta { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+  .dock button .meta .num { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; color: var(--fg-faint); }
+  .dock button .meta .name { font-size: 13px; }
+  .dock button:hover { background: oklch(1 0 0 / 0.05); color: var(--fg); }
+  .dock button.active { background: oklch(1 0 0 / 0.1); color: var(--fg); }
+  .dock button.active .meta .num { color: var(--accent); }
+
+  /* swatch colors */
+  .s-mercury     { background: linear-gradient(135deg, #eaccff 0%, #6a36b8 45%, #14071f 100%); }
+  .s-aurora      { background: linear-gradient(135deg, #7dd8a3 0%, #4aa6d8 50%, #8b5fd8 100%); }
+  .s-plasma      { background: radial-gradient(circle at 30% 30%, #ffd166 0%, #ef476f 50%, #2b0a3f 100%); }
+  .s-lattice     { background: conic-gradient(from 210deg, #2dd4bf, #38bdf8, #818cf8, #f472b6, #2dd4bf); }
+  .s-iridescence { background: linear-gradient(135deg, #ff6ad5 0%, #ffd700 25%, #61fffd 55%, #647dff 100%); }
+
+  .dock .indicator {
+    position: absolute; bottom: 4px; height: 2px; background: var(--accent);
+    border-radius: 1px;
+    transition: left 280ms cubic-bezier(0.4, 0, 0.2, 1), width 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ---------- info panel (left, vertical) ---------- */
+  .info {
+    position: fixed; left: 24px; bottom: 24px; z-index: 10;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.1em; color: var(--fg-dim);
+    line-height: 1.7;
+    user-select: none;
+  }
+  .info .name { color: var(--fg); font-size: 16px; font-family: 'Inter'; font-weight: 500; letter-spacing: -0.01em; text-transform: none; margin-bottom: 4px; }
+  .info .desc { text-transform: none; letter-spacing: 0; color: var(--fg-dim); font-size: 12px; max-width: 240px; margin-bottom: 10px; }
+  .info .stat { display: flex; gap: 8px; }
+  .info .stat b { color: var(--fg); font-weight: 500; }
+
+  /* ---------- fps ---------- */
+  .fps {
+    position: fixed; right: 24px; bottom: 24px; z-index: 10;
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.1em; color: var(--fg-faint);
+    user-select: none;
+  }
+
+  @media (max-width: 720px) {
+    .dock button .meta .num { display: none; }
+    .dock button { padding: 8px 10px; }
+    .hint { display: none; }
+    .info { font-size: 9.5px; }
+    .info .desc { max-width: 180px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stage"></canvas>
+
+<script>
+/* ============================================================
+   Shader Wallpapers — WebGL2 driver
+   ============================================================ */
+
+const SHADERS = [
+  {
+    id: 'mercury',
+    name: 'Mercury',
+    swatch: 's-mercury',
+    desc: 'Liquid metal flow. Your cursor distorts the surface tension.',
+    frag: `#version 300 es
+precision highp float;
+out vec4 outColor;
+uniform vec2 iResolution;
+uniform float iTime;
+uniform vec3 iMouse; // x,y normalized + pressed
+uniform vec4 iRipples[6]; // x,y,startTime,strength
+
+// hash & noise
+float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+float noise(vec2 p){
+  vec2 i = floor(p); vec2 f = fract(p);
+  vec2 u = f*f*(3.0-2.0*f);
+  return mix(mix(hash(i+vec2(0,0)), hash(i+vec2(1,0)), u.x),
+             mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), u.x), u.y);
+}
+float fbm(vec2 p){
+  float v=0.0, a=0.5;
+  for(int i=0;i<5;i++){ v += a*noise(p); p*=2.02; a*=0.5; }
+  return v;
+}
+
+void main(){
+  vec2 uv = gl_FragCoord.xy / iResolution.xy;
+  vec2 p = (gl_FragCoord.xy - 0.5*iResolution.xy)/min(iResolution.x, iResolution.y);
+  vec2 m = (iMouse.xy - 0.5*iResolution.xy)/min(iResolution.x, iResolution.y);
+
+  // mouse warp
+  vec2 toMouse = p - m;
+  float d = length(toMouse);
+  vec2 warp = -toMouse * 0.25 * exp(-d*2.0);
+
+  // ripple impulses
+  for(int i=0;i<6;i++){
+    vec4 r = iRipples[i];
+    if(r.w <= 0.0) continue;
+    vec2 rp = (r.xy - 0.5*iResolution.xy)/min(iResolution.x, iResolution.y);
+    float age = iTime - r.z;
+    if(age < 0.0 || age > 2.5) continue;
+    float dist = length(p - rp);
+    float wave = sin(dist*22.0 - age*7.0) * exp(-dist*2.0) * exp(-age*1.5);
+    warp += normalize(p - rp + 1e-4) * wave * 0.04 * r.w;
+  }
+
+  vec2 q = p + warp;
+  float t = iTime * 0.08;
+
+  // domain-warped fbm
+  vec2 a = vec2(fbm(q*1.5 + t), fbm(q*1.5 + vec2(5.2,1.3) - t));
+  vec2 b = vec2(fbm(q*1.5 + 2.5*a + vec2(1.7,9.2) + t),
+                fbm(q*1.5 + 2.5*a + vec2(8.3,2.8) - t*1.2));
+  float f = fbm(q*1.5 + 3.5*b);
+
+  // dark purple metallic ramp
+  float v = smoothstep(0.0, 1.0, f);
+  vec3 c1 = vec3(0.04, 0.02, 0.08);   // near-black violet
+  vec3 c2 = vec3(0.20, 0.10, 0.32);   // deep purple
+  vec3 c3 = vec3(0.55, 0.32, 0.78);   // amethyst highlight
+  vec3 c4 = vec3(0.92, 0.80, 1.00);   // pale lavender specular
+
+  vec3 col = mix(c1, c2, smoothstep(0.0, 0.45, v));
+  col = mix(col, c3, smoothstep(0.45, 0.82, v));
+  col = mix(col, c4, smoothstep(0.88, 0.99, v));
+
+  // violet glow near mouse
+  float glow = exp(-d*3.0)*0.4;
+  col += vec3(0.35, 0.18, 0.55) * glow;
+
+  // vignette
+  col *= 1.0 - 0.45*pow(length(p)*0.9, 2.0);
+
+  // film grain
+  col += (hash(gl_FragCoord.xy + iTime) - 0.5) * 0.015;
+
+  outColor = vec4(col, 1.0);
+}
+`,
+  },
+
+  {
+    id: 'aurora',
+    name: 'Aurora',
+    swatch: 's-aurora',
+    desc: 'Layered curtains of light. Cursor pulls the bands toward it.',
+    frag: `#version 300 es
+precision highp float;
+out vec4 outColor;
+uniform vec2 iResolution;
+uniform float iTime;
+uniform vec3 iMouse;
+uniform vec4 iRipples[6];
+
+float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+float noise(vec2 p){
+  vec2 i=floor(p); vec2 f=fract(p);
+  vec2 u=f*f*(3.0-2.0*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),
+             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+}
+float fbm(vec2 p){ float v=0.0,a=0.5; for(int i=0;i<6;i++){ v+=a*noise(p); p*=2.0; a*=0.5;} return v; }
+
+float uv_y(vec2 p){ return clamp(p.y*0.5+0.5, 0.0, 1.0); }
+
+vec3 palette(float t){
+  // teal -> blue -> violet -> magenta
+  vec3 a = vec3(0.5,0.4,0.6);
+  vec3 b = vec3(0.5,0.5,0.5);
+  vec3 c = vec3(1.0,1.0,1.0);
+  vec3 d = vec3(0.0, 0.25, 0.55);
+  return a + b*cos(6.2831*(c*t + d));
+}
+
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  vec2 m = (iMouse.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  float t = iTime*0.12;
+
+  // mouse attraction
+  vec2 toM = m - p;
+  float dm = length(toM);
+  vec2 pull = toM * 0.35 * exp(-dm*1.5);
+
+  // ripple bumps
+  float rippleAdd = 0.0;
+  for(int i=0;i<6;i++){
+    vec4 r = iRipples[i];
+    if(r.w<=0.0) continue;
+    vec2 rp = (r.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+    float age = iTime - r.z;
+    if(age<0.0||age>3.0) continue;
+    float dist = length(p - rp);
+    rippleAdd += sin(dist*15.0 - age*6.0) * exp(-dist*1.8) * exp(-age*1.2) * 0.3 * r.w;
+  }
+
+  vec2 q = p + pull*0.3;
+  q.x += 0.3*fbm(q*1.2 + t);
+  q.y += 0.2*fbm(q*1.5 + vec2(3.1, 9.2) - t*1.1);
+
+  // band field — layered sinusoids
+  float field = 0.0;
+  for(int i=0;i<4;i++){
+    float fi = float(i);
+    float k = 1.5 + fi*0.7;
+    float band = sin(q.y*k*3.5 + fbm(q*1.4 + t*0.6 + fi)*4.0 + t*(0.6+fi*0.3));
+    band = pow(max(band*0.5+0.5, 0.0), 2.5);
+    field += band * (0.5 - fi*0.1);
+  }
+  field += rippleAdd;
+  field *= smoothstep(-0.9, 0.4, q.y + 0.4); // fade bottom
+
+  // colorize
+  float hueShift = q.x*0.15 + t*0.3 + dm*0.2;
+  vec3 col = palette(0.55 + hueShift) * field;
+
+  // deep background sky
+  vec3 sky = mix(vec3(0.02,0.025,0.06), vec3(0.06,0.04,0.12), uv_y(p));
+  col = sky + col*1.4;
+
+  // mouse glow
+  col += vec3(0.4,0.7,0.9) * exp(-dm*3.5) * 0.3;
+
+  // stars
+  float star = pow(hash(floor(gl_FragCoord.xy*2.0)), 80.0);
+  col += vec3(star)*0.6 * smoothstep(-0.2, 0.6, q.y);
+
+  // vignette
+  col *= 1.0 - 0.35*pow(length(p)*0.85, 2.0);
+
+  outColor = vec4(col, 1.0);
+}
+`,
+  },
+
+  {
+    id: 'plasma',
+    name: 'Plasma',
+    swatch: 's-plasma',
+    desc: 'Heat bloom. Move to warm the field; click to ignite a flare.',
+    frag: `#version 300 es
+precision highp float;
+out vec4 outColor;
+uniform vec2 iResolution;
+uniform float iTime;
+uniform vec3 iMouse;
+uniform vec4 iRipples[6];
+
+vec2 rot(vec2 v, float a){ float c=cos(a), s=sin(a); return mat2(c,-s,s,c)*v; }
+
+float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+float noise(vec2 p){
+  vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),
+             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+}
+
+vec3 palette(float t){
+  // deep purple -> magenta -> orange -> yellow
+  vec3 a = vec3(0.55, 0.3, 0.45);
+  vec3 b = vec3(0.55, 0.45, 0.5);
+  vec3 c = vec3(1.0, 1.0, 0.6);
+  vec3 d = vec3(0.0, 0.25, 0.55);
+  return a + b*cos(6.2831*(c*t + d));
+}
+
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  vec2 m = (iMouse.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  float t = iTime*0.25;
+
+  float dm = length(p - m);
+  // mouse acts as heat source pushing radial wave
+  float heat = exp(-dm*1.8)*1.2;
+
+  // ripple flares
+  float flare = 0.0;
+  for(int i=0;i<6;i++){
+    vec4 r = iRipples[i];
+    if(r.w<=0.0) continue;
+    vec2 rp = (r.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+    float age = iTime - r.z;
+    if(age<0.0||age>2.0) continue;
+    float dist = length(p - rp);
+    float ring = exp(-pow((dist - age*0.55)*4.0, 2.0));
+    flare += ring * exp(-age*0.9) * r.w * 1.4;
+  }
+
+  // rotating noise cells
+  vec2 q = p;
+  q = rot(q, t*0.4 + dm*0.5);
+  float v = 0.0;
+  v += sin(q.x*4.0 + t*1.4 + sin(q.y*3.0 + t)*1.5);
+  v += sin(length(q)*8.0 - t*2.5);
+  v += sin((q.x+q.y)*5.0 + t*1.1);
+  v += noise(p*3.0 + t)*2.0;
+  v *= 0.25;
+
+  float intensity = v*0.5 + 0.5 + heat*0.6 + flare;
+  intensity = clamp(intensity, 0.0, 1.4);
+
+  vec3 col = palette(0.15 + intensity*0.6 + t*0.05);
+  // boost highlights
+  col = pow(col, vec3(1.1));
+  col *= 0.6 + intensity*0.8;
+
+  // dark core fade at edges
+  col *= 1.0 - 0.5*pow(length(p)*0.9, 2.5);
+
+  // mouse white-hot core
+  col += vec3(1.0, 0.9, 0.7) * exp(-dm*8.0) * 0.6;
+
+  // grain
+  col += (hash(gl_FragCoord.xy + iTime)-0.5)*0.02;
+
+  outColor = vec4(col, 1.0);
+}
+`,
+  },
+
+  {
+    id: 'lattice',
+    name: 'Lattice',
+    swatch: 's-lattice',
+    desc: 'Crystalline voronoi cells. Your cursor pulls the nearest seed.',
+    frag: `#version 300 es
+precision highp float;
+out vec4 outColor;
+uniform vec2 iResolution;
+uniform float iTime;
+uniform vec3 iMouse;
+uniform vec4 iRipples[6];
+
+vec2 hash2(vec2 p){
+  p = vec2(dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)));
+  return fract(sin(p)*43758.5453);
+}
+float hash1(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  vec2 m = (iMouse.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  float t = iTime*0.4;
+
+  // scale
+  vec2 g = p*4.0;
+  vec2 gm = m*4.0;
+
+  vec2 gi = floor(g);
+  vec2 gf = fract(g);
+
+  float minDist = 8.0;
+  float secDist = 8.0;
+  vec2 minCell = vec2(0);
+  vec2 minPoint = vec2(0);
+
+  // ripple displacement
+  vec2 rippleShift = vec2(0);
+  for(int i=0;i<6;i++){
+    vec4 r = iRipples[i];
+    if(r.w<=0.0) continue;
+    vec2 rp = (r.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y)*4.0;
+    float age = iTime - r.z;
+    if(age<0.0||age>2.5) continue;
+    vec2 d = g - rp;
+    float dl = length(d);
+    float push = exp(-pow((dl - age*2.5)*1.2, 2.0)) * exp(-age*0.8) * r.w;
+    rippleShift += normalize(d+1e-4) * push * 0.35;
+  }
+  g += rippleShift;
+  gi = floor(g);
+  gf = fract(g);
+
+  for(int j=-1;j<=1;j++){
+    for(int i=-1;i<=1;i++){
+      vec2 c = vec2(float(i),float(j));
+      vec2 cell = gi + c;
+      vec2 rnd = hash2(cell);
+      // animated seed
+      vec2 seed = c + 0.5 + 0.4*sin(t + rnd*6.2831);
+      // attraction to mouse if this cell is close
+      vec2 cellCenter = cell + 0.5;
+      float dmCell = length(cellCenter - gm);
+      vec2 toM = (gm - cellCenter);
+      seed += toM * 0.25 * exp(-dmCell*0.9);
+
+      vec2 diff = seed - gf;
+      float d = length(diff);
+      if(d < minDist){
+        secDist = minDist;
+        minDist = d;
+        minCell = cell;
+        minPoint = cellCenter + (seed - 0.5 - c);
+      } else if(d < secDist){
+        secDist = d;
+      }
+    }
+  }
+
+  // edge factor: distance to bisector
+  float edge = secDist - minDist;
+  float edgeMask = smoothstep(0.0, 0.06, edge);
+
+  // cell color
+  float h = hash1(minCell);
+  // teal -> blue -> indigo -> magenta palette
+  vec3 a = vec3(0.5);
+  vec3 b = vec3(0.5);
+  vec3 c = vec3(1.0, 1.0, 1.0);
+  vec3 d = vec3(0.55, 0.7, 0.95);
+  vec3 base = a + b*cos(6.2831*(c*(h*0.6 + t*0.08) + d));
+  base *= 0.45 + 0.5*hash1(minCell + 17.0);
+
+  // dark gaps + bright edges
+  vec3 col = mix(vec3(0.02,0.03,0.05), base, edgeMask);
+  // glow on edges
+  col += vec3(0.7,0.85,1.0) * (1.0 - edgeMask) * 0.4;
+
+  // distance-from-mouse highlight
+  float dm = length(p - m);
+  col += vec3(0.4,0.7,1.0) * exp(-dm*2.5) * 0.15;
+
+  // grain
+  col += (hash1(gl_FragCoord.xy + iTime)-0.5)*0.012;
+
+  // vignette
+  col *= 1.0 - 0.35*pow(length(p)*0.9, 2.0);
+
+  outColor = vec4(col, 1.0);
+}
+`,
+  },
+
+  {
+    id: 'iridescence',
+    name: 'Iridescence',
+    swatch: 's-iridescence',
+    desc: 'Oil-slick interference. Cursor angles the film, clicks make blooms.',
+    frag: `#version 300 es
+precision highp float;
+out vec4 outColor;
+uniform vec2 iResolution;
+uniform float iTime;
+uniform vec3 iMouse;
+uniform vec4 iRipples[6];
+
+float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+float noise(vec2 p){
+  vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),
+             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+}
+float fbm(vec2 p){ float v=0.0,a=0.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.05; a*=0.5;} return v; }
+
+vec3 spectrum(float t){
+  // smooth visible-light style ramp
+  t = fract(t);
+  vec3 a = vec3(0.5, 0.5, 0.5);
+  vec3 b = vec3(0.5, 0.5, 0.5);
+  vec3 c = vec3(1.0, 1.0, 1.0);
+  vec3 d = vec3(0.00, 0.33, 0.67);
+  return a + b*cos(6.2831*(c*t + d));
+}
+
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  vec2 m = (iMouse.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+  float t = iTime*0.07;
+
+  // ripple thickness modulation
+  float thickAdd = 0.0;
+  for(int i=0;i<6;i++){
+    vec4 r = iRipples[i];
+    if(r.w<=0.0) continue;
+    vec2 rp = (r.xy - 0.5*iResolution.xy)/min(iResolution.x,iResolution.y);
+    float age = iTime - r.z;
+    if(age<0.0||age>3.0) continue;
+    float dist = length(p - rp);
+    thickAdd += sin(dist*30.0 - age*9.0) * exp(-dist*1.5) * exp(-age*1.0) * 0.5 * r.w;
+  }
+
+  // domain warp
+  vec2 q = p;
+  q += 0.5*vec2(fbm(q*1.3 + t), fbm(q*1.3 + vec2(5.2,1.3) - t));
+  float thickness = fbm(q*1.8 + t*1.5);
+
+  // mouse changes "viewing angle" -> shifts spectrum
+  float dm = length(p - m);
+  vec2 toM = (p - m);
+  float angle = dot(normalize(toM+1e-4), vec2(1.0, 0.0));
+  float angleShift = angle * 0.15 + (1.0 - exp(-dm*0.8)) * 0.2;
+
+  float phase = thickness*2.5 + angleShift + thickAdd + t*0.4;
+
+  vec3 col = spectrum(phase);
+
+  // film softness — pastel tone
+  col = mix(col, vec3(0.95,0.95,1.0), 0.15);
+  col = pow(col, vec3(1.05));
+
+  // dark substrate showing through where film is thin
+  float thin = smoothstep(0.0, 0.3, thickness);
+  col *= 0.3 + thin*0.85;
+
+  // mouse highlight bloom
+  col += vec3(1.0) * exp(-dm*4.0) * 0.18;
+
+  // subtle dark veining
+  float vein = pow(1.0 - abs(fbm(q*4.0 + t*2.0) - 0.5)*2.0, 8.0);
+  col *= 1.0 - vein*0.25;
+
+  // vignette
+  col *= 1.0 - 0.45*pow(length(p)*0.9, 2.0);
+
+  // grain
+  col += (hash(gl_FragCoord.xy + iTime)-0.5)*0.012;
+
+  outColor = vec4(col, 1.0);
+}
+`,
+  },
+];
+
+const VERT = `#version 300 es
+in vec2 a_pos;
+void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }
+`;
+
+/* -------- WebGL setup -------- */
+const canvas = document.getElementById('stage');
+const gl = canvas.getContext('webgl2', { antialias: false, alpha: false, premultipliedAlpha: false });
+if (!gl) {
+  document.body.innerHTML = '<div style="color:#fff;font-family:sans-serif;padding:40px">WebGL2 is required. Try a recent Chrome/Firefox/Safari.</div>';
+  throw new Error('No WebGL2');
+}
+
+function compile(type, src){
+  const sh = gl.createShader(type);
+  gl.shaderSource(sh, src);
+  gl.compileShader(sh);
+  if(!gl.getShaderParameter(sh, gl.COMPILE_STATUS)){
+    console.error(gl.getShaderInfoLog(sh), src);
+    throw new Error('shader compile');
+  }
+  return sh;
+}
+function program(fragSrc){
+  const p = gl.createProgram();
+  gl.attachShader(p, compile(gl.VERTEX_SHADER, VERT));
+  gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fragSrc));
+  gl.bindAttribLocation(p, 0, 'a_pos');
+  gl.linkProgram(p);
+  if(!gl.getProgramParameter(p, gl.LINK_STATUS)){
+    console.error(gl.getProgramInfoLog(p));
+    throw new Error('link');
+  }
+  return p;
+}
+
+// fullscreen triangle
+const buf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0);
+gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+// compile all programs
+const progs = SHADERS.map(s => {
+  const prog = program(s.frag);
+  return {
+    ...s,
+    prog,
+    u: {
+      iResolution: gl.getUniformLocation(prog, 'iResolution'),
+      iTime: gl.getUniformLocation(prog, 'iTime'),
+      iMouse: gl.getUniformLocation(prog, 'iMouse'),
+      iRipples: gl.getUniformLocation(prog, 'iRipples[0]'),
+    }
+  };
+});
+
+/* -------- state -------- */
+let current = 0;
+let startTime = performance.now();
+let mouse = { x: 0, y: 0, target_x: 0, target_y: 0, pressed: 0 };
+const ripples = []; // {x,y,t,strength}
+
+function resize(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = Math.floor(window.innerWidth * dpr);
+  const h = Math.floor(window.innerHeight * dpr);
+  canvas.width = w; canvas.height = h;
+  canvas.style.width = window.innerWidth+'px';
+  canvas.style.height = window.innerHeight+'px';
+  gl.viewport(0, 0, w, h);
+}
+window.addEventListener('resize', resize);
+resize();
+
+// init mouse to center
+mouse.x = mouse.target_x = canvas.width * 0.5;
+mouse.y = mouse.target_y = canvas.height * 0.5;
+
+const dpr = () => Math.min(window.devicePixelRatio || 1, 2);
+
+window.addEventListener('mousemove', (e) => {
+  mouse.target_x = e.clientX * dpr();
+  mouse.target_y = (window.innerHeight - e.clientY) * dpr();
+});
+window.addEventListener('mousedown', (e) => {
+  mouse.pressed = 1;
+  addRipple(e.clientX * dpr(), (window.innerHeight - e.clientY) * dpr(), 1.0);
+});
+window.addEventListener('mouseup', () => { mouse.pressed = 0; });
+
+// touch
+window.addEventListener('touchstart', (e) => {
+  const t = e.touches[0];
+  mouse.target_x = t.clientX * dpr();
+  mouse.target_y = (window.innerHeight - t.clientY) * dpr();
+  mouse.x = mouse.target_x; mouse.y = mouse.target_y;
+  addRipple(mouse.target_x, mouse.target_y, 1.0);
+}, { passive: true });
+window.addEventListener('touchmove', (e) => {
+  const t = e.touches[0];
+  mouse.target_x = t.clientX * dpr();
+  mouse.target_y = (window.innerHeight - t.clientY) * dpr();
+}, { passive: true });
+
+function addRipple(x, y, strength){
+  const now = (performance.now() - startTime)/1000;
+  ripples.push({ x, y, t: now, strength });
+  while(ripples.length > 6) ripples.shift();
+}
+
+/* -------- shader selection via ?shader=mercury|aurora|plasma|lattice|iridescence -------- */
+const params = new URLSearchParams(location.search);
+const pick = (params.get('shader') || 'mercury').toLowerCase();
+const idx = SHADERS.findIndex(s => s.id === pick);
+current = idx >= 0 ? idx : 0;
+
+/* -------- render loop -------- */
+const rippleBuf = new Float32Array(6*4);
+let lastFrame = performance.now();
+
+
+function frame(){
+  const now = performance.now();
+  const dt = Math.min((now - lastFrame)/1000, 0.05);
+  lastFrame = now;
+  const t = (now - startTime)/1000;
+
+  // smooth mouse
+  const lerp = 1 - Math.exp(-dt*12);
+  mouse.x += (mouse.target_x - mouse.x) * lerp;
+  mouse.y += (mouse.target_y - mouse.y) * lerp;
+
+  // pack ripples
+  for(let i=0;i<6;i++){
+    const r = ripples[i];
+    if(r){ rippleBuf[i*4]=r.x; rippleBuf[i*4+1]=r.y; rippleBuf[i*4+2]=r.t; rippleBuf[i*4+3]=r.strength; }
+    else { rippleBuf[i*4+3]=0; }
+  }
+
+  const s = progs[current];
+  gl.useProgram(s.prog);
+  gl.uniform2f(s.u.iResolution, canvas.width, canvas.height);
+  gl.uniform1f(s.u.iTime, t);
+  gl.uniform3f(s.u.iMouse, mouse.x, mouse.y, mouse.pressed);
+  gl.uniform4fv(s.u.iRipples, rippleBuf);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
