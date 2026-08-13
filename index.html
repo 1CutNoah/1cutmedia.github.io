@@ -41,6 +41,7 @@
       --bg:       #0a0a0a;
       --fg:       #edeae3;
       --fg-dim:   #888880;
+      --fg-mid:   #b8b4aa;  /* hero-over-shader legibility step */
       --fg-faint: #3a3a38;
       --accent:   #1a1a1a;
       --border:   #1c1c1a;
@@ -133,6 +134,21 @@
       position: relative;
       overflow: hidden;
     }
+
+    /* Legibility scrim — the shader is animated, so contrast must come from
+       this layer, not from hoping the plume stays dark under the copy. */
+    #hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(120% 95% at 18% 46%, rgba(10,10,10,0.66) 0%, rgba(10,10,10,0.30) 46%, transparent 72%),
+        linear-gradient(to bottom, rgba(10,10,10,0.35), transparent 30%, transparent 78%, rgba(10,10,10,0.5));
+    }
+    .hero-orb { z-index: 0; }
+    #hero > * { position: relative; z-index: 2; }
 
     /* Gradient orbs */
     .hero-orb {
@@ -331,7 +347,8 @@
       max-width: 520px;
       font-size: 17px;
       font-weight: 300;
-      color: var(--fg-dim);
+      color: var(--fg-mid);
+      text-shadow: 0 1px 3px rgba(10,10,10,0.55), 0 2px 22px rgba(10,10,10,0.45);
       line-height: 1.7;
       margin-bottom: 44px;
       opacity: 0;
