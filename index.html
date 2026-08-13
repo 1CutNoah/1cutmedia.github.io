@@ -44,6 +44,7 @@
       --fg:       #edeae3;
       --fg-dim:   #888880;
       --fg-mid:   #b8b4aa;  /* hero-over-shader legibility step */
+      --chrome-mid: #9B8BB0; /* the identity purple, usable as flat color */
       --fg-faint: #3a3a38;
       --accent:   #1a1a1a;
       --border:   #1c1c1a;
@@ -277,7 +278,7 @@
       font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--fg-faint);
+      color: var(--fg-dim);
       white-space: nowrap;
     }
 
@@ -483,7 +484,7 @@
       letter-spacing: -0.03em;
     }
 
-    .about-stat span { color: var(--accent); }
+    .about-stat span { color: var(--chrome-mid); }
 
     .about-right {
       display: flex;
@@ -1286,7 +1287,7 @@
   </p>
 
   <div class="hero-buttons" id="hero-buttons">
-    <a href="#contact" class="hero-btn-primary">Get started <span class="arrow">→</span></a>
+    <a href="#contact" class="hero-btn-primary">Start a project <span class="arrow">→</span></a>
     <a href="#work" class="hero-btn-secondary">See work</a>
   </div>
 </section>
@@ -1483,10 +1484,6 @@
         <div class="contact-detail-item">
           <span class="contact-detail-label">Email</span>
           <a href="mailto:noah@1cutmedia.com" class="contact-detail-val">noah@1cutmedia.com</a>
-        </div>
-        <div class="contact-detail-item">
-          <span class="contact-detail-label">Website</span>
-          <span class="contact-detail-val">1cutmedia.com</span>
         </div>
       </div>
 
